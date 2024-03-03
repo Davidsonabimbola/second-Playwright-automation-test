@@ -1,0 +1,4 @@
+1
+1
+locator('tbody tr').getByText('iphone X')locator('tbody tr').getByText('Samsung Note 8')
+Promise { <pending> }
