@@ -53,89 +53,81 @@ await NewFeature.validateOrder()
   const NewFeature = newFeature(page)
     const type_Country = 'Fr'
     const exact_CountryName = 'France'
-    const productName = 'iphone X'
-    const second_productName = 'Samsung Note 8'
+     const selection1 = 'iphone X'
+    const selection2 = 'Samsung Note 8'
     const products =   page.locator('[class="card h-100"]')
-    const item =  await page.locator('tbody tr').nth(0) 
-    const item_amount =  await item.locator('td').nth(3)
-    const total_payment = await page.locator('tbody tr').nth(1)
-    const final_payment = await total_payment.locator('td').nth(4)
+    // const item =  await page.locator('tbody tr').nth(0) 
+    // const item_amount =  await item.locator('td').nth(3)
+    // const total_payment = await page.locator('tbody tr').nth(1)
+    // const final_payment = await total_payment.locator('td').nth(4)
     const userName = ('rahulshettyacademy')
     const password = ('learning')
     const Item1= await page.locator('tbody tr').nth(0)
     const Item2 = await  page.locator('tbody tr').nth(1)
     const value1 = await Item1.locator('[class="col-sm-1 col-md-1 text-center"]').nth(1)
     const value2 = await Item2.locator('[class="col-sm-1 col-md-1 text-center"]').nth(1)
- 
-
+    const productNames = [selection1, selection2]
+    let totalMoney = 0
+   
+    
     await NewFeature.goToLoginPage()
 await NewFeature.login(userName,password)
-await NewFeature.selectDoubleOrder(products,productName,second_productName) 
+await NewFeature.selectDoubleOrder(products,selection1,selection2) 
 console.log(await value1.textContent())
 console.log(await value2.textContent())
 
-const text1 = await value1.textContent()
-const arrayText1 = text1.split('.')[1]
-const Money_value1 = parseInt(arrayText1)
-console.log(Money_value1)
 
-const text2 = await value2.textContent()
-const arrayText2 = text2.split('.')[1]
-const Money_value2 = parseInt(arrayText2)
-console.log(Money_value2)
+// ** */ hard coding content finding
+// const col1 = await page.locator('tbody tr').nth(0)
+// const sole_col1 = await col1.locator('td').nth(0)
+// const sole_column1 = await sole_col1.locator('[class="media"]')
+// const main_sole_col1 = await sole_column1.locator('a').nth(1)
+// console.log(await main_sole_col1.textContent()) //iphoneX
 
-const Sum_ofMoney = Money_value1 + Money_value2
-console.log(Sum_ofMoney)
+// const col2 = await page.locator('tbody tr').nth(1)
+// const sole_col2 = await col2.locator('td').nth(0)
+// const sole_column2 = await sole_col2.locator('[class="media"]')
+// const main_sole_col2 = await sole_column2.locator('a').nth(1)
+// console.log(await main_sole_col2.textContent()) //Samsung
 
-const show = await page.locator('.text-right h3').textContent() 
-const arrayShow = show.split('.')[1]
-const display_Value = parseInt(arrayShow)
-console.log(display_Value)
-expect(Sum_ofMoney == display_Value)
 
+// const text1 = await value1.textContent()
+// const arrayText1 = text1.split('.')[1]
+// const Money_value1 = parseInt(arrayText1)
+// console.log(Money_value1)
+
+// const text2 = await value2.textContent()
+// const arrayText2 = text2.split('.')[1]
+// const Money_value2 = parseInt(arrayText2)
+// console.log(Money_value2)
+
+// const Sum_ofMoney = Money_value1 + Money_value2
+// console.log(Sum_ofMoney)
+
+
+for (let i = 0; i < productNames.length; i++) {
+  const productName = productNames[i]; // to iterate over all the products name in the productNames array
+  const col = await page.locator('tbody tr').nth(i);
+  const sole_col = await col.locator('td').nth(0);
+  const sole_column = await sole_col.locator('[class="media"]');
+  const main_sole_col = await sole_column.locator('a').nth(1);
+  const productText = await main_sole_col.textContent();
+
+  if (productText.includes(productName)) {
+    console.log(`Found product: ${productName}`);
+    
+    const value = await col.locator('[class="col-sm-1 col-md-1 text-center"]').nth(1);
+    const text = await value.textContent();
+    const arrayText = text.split('.')[1];
+    const Money_value = parseInt(arrayText);
+    console.log(`Price of ${productName}: ${Money_value}`);
+    totalMoney += Money_value
+    
+  }
+  }
+  console.log(`Total money for all products: ${totalMoney}`)
 await NewFeature.selectCountry(type_Country,exact_CountryName)
 await NewFeature.validateOrder()
-
-
-
-
-//  const orders = await page.locator('tbody tr')     
-//        const ordersNumber = orders.count() 
-    
-// for (let i = 0; i<ordersNumber; i++){
-//     const order = await orders.nth(i);
-//     const spec = await order.locator('td').nth(0).textContent();
-//     if(spec.includes (second_productName))
-//     {
-//         const fourthTdContent = await order.locator('td').nth(3).textContent();
-// console.log (fourthTdContent)
-// break;
-//     }
-// }
-
-//Reusable code
-// async function extractMoneyValue(element) {
-//     const text = await element.textContent();
-//     const arrayText = text.split('.')[1];
-//     const moneyValue = parseInt(arrayText);
-//     return moneyValue;
-// }
-
-// async function calculateSumOfMoney(value1, value2) {
-//     const moneyValue1 = await extractMoneyValue(value1);
-//     const moneyValue2 = await extractMoneyValue(value2);
-//     const sumOfMoney = moneyValue1 + moneyValue2;
-//     return sumOfMoney;
-// }
-
-// // Example usage:
-// const value1 = /* Your Playwright locator for the first element */;
-// const value2 = /* Your Playwright locator for the second element */;
-
-// const sumOfMoney = await calculateSumOfMoney(value1, value2);
-// console.log(sumOfMoney);
-
-
 
  })
 
