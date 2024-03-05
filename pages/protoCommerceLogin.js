@@ -25,7 +25,6 @@ async selectDoubleOrder(products,productName,secondOrder){
     await page.locator('#navbarResponsive a').click()
     await page.locator('[class="table table-hover"]').waitFor()
 },
-
 async placeOrder(final_payment,item_amount){
     console.log( await item_amount.textContent());
     console.log(await final_payment.textContent())

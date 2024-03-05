@@ -1,0 +1,12 @@
+₹. 100000
+₹. 85000
+Found product: iphone X
+Price of iphone X: 100000
+Found product: Samsung Note 8
+Price of Samsung Note 8: 85000
+Total money for all products: 185000
+0
+
+          ×
+          Success! Thank you! Your order will be delivered in next few weeks :-).
+        
